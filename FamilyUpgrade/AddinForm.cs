@@ -24,6 +24,8 @@ namespace FamilyUgrade
 			_commandData = commandData;
 			_formEvent = formEvent;
 			_revitEvent = revitEvent;
+
+			Event1();
 		}
 
 		public void Event1()

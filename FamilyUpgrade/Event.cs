@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using System;
+using System.IO;
+using Autodesk.Revit.ApplicationServices;
+using Autodesk.Revit.DB;
 
 namespace FamilyUgrade
 {
@@ -26,7 +30,9 @@ namespace FamilyUgrade
 			switch (AddinForm.EventFlag)
 			{
 				case EventRaised.Event1:
-					TaskDialog.Show("Event1", "Event1 Raised.");
+					FamilyUpgrade familyUpgrade = new FamilyUpgrade(doc.Application);
+					familyUpgrade.UpgradeFamilies(@"C:\path\to\source\directory", @"C:\path\to\target\directory");
+
 					AddinForm.EventFlag = EventRaised.NoEvent;
 					break;
 				case EventRaised.Event2:
@@ -38,4 +44,37 @@ namespace FamilyUgrade
 		}
 	}
 	
+	public class FamilyUpgrade
+	{
+		private Application _revitApp;
+
+		public FamilyUpgrade(Application revitApp)
+		{
+			_revitApp = revitApp;
+		}
+
+		public void UpgradeFamilies(string sourceDirectory, string targetDirectory)
+		{
+			// Get all the family files in the source directory
+			string[] familyFiles = Directory.GetFiles(sourceDirectory, "*.rfa");
+
+			foreach (string familyFile in familyFiles)
+			{
+				// Open the family file in a new document
+				Document doc = _revitApp.OpenDocumentFile(familyFile);
+
+				// The document is automatically upgraded to the current version of Revit
+
+				// Save the document to a new file in the target directory
+				string targetFile = Path.Combine(targetDirectory, Path.GetFileName(familyFile));
+				SaveAsOptions options = new SaveAsOptions();
+				options.OverwriteExistingFile = true;
+				doc.SaveAs(targetFile, options);
+
+				// Close the document
+				doc.Close(false);
+			}
+		}
+	}
+
 }

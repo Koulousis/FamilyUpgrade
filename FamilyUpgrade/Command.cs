@@ -21,7 +21,7 @@ namespace FamilyUgrade
 
 			//Open addin window from where the events will be triggered
 			AddinForm addinForm = new AddinForm(commandData, formEvent, revitEvent);
-			addinForm.Show();
+			//addinForm.ShowDialog();
 
 			return Result.Succeeded;
 		}
