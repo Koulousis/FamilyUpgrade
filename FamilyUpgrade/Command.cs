@@ -7,7 +7,7 @@ using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
-namespace FamilyUgrade
+namespace FamilyUpgrade
 {
 	[Transaction(TransactionMode.ReadOnly)]
 	public class Command : IExternalCommand

@@ -5,12 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using System;
 using System.IO;
 using Autodesk.Revit.ApplicationServices;
-using Autodesk.Revit.DB;
 
-namespace FamilyUgrade
+namespace FamilyUpgrade
 {
 	public class Event : IExternalEventHandler
 	{
@@ -31,7 +29,9 @@ namespace FamilyUgrade
 			{
 				case EventRaised.Event1:
 					FamilyUpgrade familyUpgrade = new FamilyUpgrade(doc.Application);
-					familyUpgrade.UpgradeFamilies(@"C:\path\to\source\directory", @"C:\path\to\target\directory");
+					string sourceDirectory = @"C:\Users\AKoulousis\OneDrive - Petersime NV\Bureaublad\R2022";
+					string targetDirectory = @"C:\Users\AKoulousis\OneDrive - Petersime NV\Bureaublad\R2023";
+					familyUpgrade.UpgradeFamilies(sourceDirectory, targetDirectory);
 
 					AddinForm.EventFlag = EventRaised.NoEvent;
 					break;

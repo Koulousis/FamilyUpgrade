@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Autodesk.Revit.UI;
 
-namespace FamilyUgrade
+namespace FamilyUpgrade
 {
 	public partial class AddinForm : Form
 	{
