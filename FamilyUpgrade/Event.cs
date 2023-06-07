@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,10 +29,9 @@ namespace FamilyUpgrade
 			switch (AddinForm.EventFlag)
 			{
 				case EventRaised.Event1:
+
 					FamilyUpgrade familyUpgrade = new FamilyUpgrade(doc.Application);
-					string sourceDirectory = @"C:\Users\AKoulousis\OneDrive - Petersime NV\Bureaublad\R2022";
-					string targetDirectory = @"C:\Users\AKoulousis\OneDrive - Petersime NV\Bureaublad\R2023";
-					familyUpgrade.UpgradeFamilies(sourceDirectory, targetDirectory);
+					familyUpgrade.UpgradeFamilies();
 
 					AddinForm.EventFlag = EventRaised.NoEvent;
 					break;
@@ -47,21 +47,58 @@ namespace FamilyUpgrade
 	public class FamilyUpgrade
 	{
 		private Application _revitApp;
+		public static string sourceDirectory = string.Empty;
+		public static string targetDirectory = string.Empty;
+		public static List<string> selectedFamilies = new List<string>();
+		private TaskDialog noFamiliesDialog = new TaskDialog("Family Upgrade")
+		{
+			MainIcon = TaskDialogIcon.TaskDialogIconError,
+			MainInstruction = "There are no selected families to upgrade",
+			CommonButtons = TaskDialogCommonButtons.Ok,
+			DefaultButton = TaskDialogResult.Ok
+		};
+		private TaskDialog noSourceDialog = new TaskDialog("Family Upgrade")
+		{
+			MainIcon = TaskDialogIcon.TaskDialogIconError,
+			MainInstruction = "There is no source directory selected",
+			CommonButtons = TaskDialogCommonButtons.Ok,
+			DefaultButton = TaskDialogResult.Ok
+		};
+		private TaskDialog noDestinationDialog = new TaskDialog("Family Upgrade")
+		{
+			MainIcon = TaskDialogIcon.TaskDialogIconError,
+			MainInstruction = "There is no destination directory selected",
+			CommonButtons = TaskDialogCommonButtons.Ok,
+			DefaultButton = TaskDialogResult.Ok
+		};
+		private TaskDialog upgradeDoneDialog = new TaskDialog("Family Upgrade")
+		{
+			MainIcon = TaskDialogIcon.TaskDialogIconInformation,
+			MainInstruction = "The upgrade of selected families is ready",
+			CommonButtons = TaskDialogCommonButtons.Ok,
+			DefaultButton = TaskDialogResult.Ok
+		};
 
 		public FamilyUpgrade(Application revitApp)
 		{
 			_revitApp = revitApp;
 		}
 
-		public void UpgradeFamilies(string sourceDirectory, string targetDirectory)
+		public void UpgradeFamilies()
 		{
+
+			if (selectedFamilies.Count == 0) { noFamiliesDialog.Show(); Command.addinForm.BringToFront(); return;}
+			if (sourceDirectory == string.Empty) { noSourceDialog.Show(); Command.addinForm.BringToFront(); return;}
+			if (targetDirectory == string.Empty) { noDestinationDialog.Show(); Command.addinForm.BringToFront(); return;}
+
+
 			// Get all the family files in the source directory
 			string[] familyFiles = Directory.GetFiles(sourceDirectory, "*.rfa");
 
-			foreach (string familyFile in familyFiles)
+			foreach (string familyFile in selectedFamilies)
 			{
 				// Open the family file in a new document
-				Document doc = _revitApp.OpenDocumentFile(familyFile);
+				Document doc = _revitApp.OpenDocumentFile(Path.Combine(sourceDirectory, Path.GetFileName(familyFile)));
 
 				// The document is automatically upgraded to the current version of Revit
 
@@ -74,6 +111,13 @@ namespace FamilyUpgrade
 				// Close the document
 				doc.Close(false);
 			}
+			
+			upgradeDoneDialog.Show();
+			Command.addinForm.Close();
+			Process.Start(targetDirectory);
+			sourceDirectory = string.Empty;
+			targetDirectory = string.Empty;
+			selectedFamilies.Clear();
 		}
 	}
 

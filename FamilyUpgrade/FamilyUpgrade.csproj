@@ -59,11 +59,35 @@
     <Compile Include="Event.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AddinForm.resx">
       <DependentUpon>AddinForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loadFamilies40x40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\openInRevit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ParameterGroupExample.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\petpanel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PETLogo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
