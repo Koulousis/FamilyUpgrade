@@ -66,17 +66,17 @@ namespace FamilyUpgrade
 			// 
 			this.sourceFolderTextBox.Location = new System.Drawing.Point(109, 21);
 			this.sourceFolderTextBox.Name = "sourceFolderTextBox";
-			this.sourceFolderTextBox.ReadOnly = true;
 			this.sourceFolderTextBox.Size = new System.Drawing.Size(402, 20);
 			this.sourceFolderTextBox.TabIndex = 2;
+			this.sourceFolderTextBox.TextChanged += new System.EventHandler(this.sourceFolderTextBox_TextChanged);
 			// 
 			// destFolderTextBox
 			// 
 			this.destFolderTextBox.Location = new System.Drawing.Point(109, 49);
 			this.destFolderTextBox.Name = "destFolderTextBox";
-			this.destFolderTextBox.ReadOnly = true;
 			this.destFolderTextBox.Size = new System.Drawing.Size(402, 20);
 			this.destFolderTextBox.TabIndex = 3;
+			this.destFolderTextBox.TextChanged += new System.EventHandler(this.destFolderTextBox_TextChanged);
 			// 
 			// selectFamilies
 			// 

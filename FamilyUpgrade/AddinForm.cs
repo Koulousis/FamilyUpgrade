@@ -89,6 +89,16 @@ namespace FamilyUpgrade
 		{
 			Event1();
 		}
+
+		private void sourceFolderTextBox_TextChanged(object sender, EventArgs e)
+		{
+			FamilyUpgrade.sourceDirectory = sourceFolderTextBox.Text;
+		}
+
+		private void destFolderTextBox_TextChanged(object sender, EventArgs e)
+		{
+			FamilyUpgrade.targetDirectory = destFolderTextBox.Text;
+		}
 	}
 
 	public enum EventRaised : byte
